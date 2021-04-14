@@ -9,8 +9,7 @@ class Main {
 
         Javalin app = Javalin.create().start(PORT);
 
-        app.get("/login", AccountController.login);
-        app.get("/register", AccountController.register);
+        app.post("/login", AccountController::login);
 
     }
 
