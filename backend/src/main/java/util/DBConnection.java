@@ -26,13 +26,32 @@ public class DBConnection {
             // Attempt to create a MySQL server connection
 
             con = DriverManager.getConnection(url, Config.DATABASE_USERNAME, Config.DATABASE_PASSWORD);
-            System.out.println("Printing connection object " + con);
 
         } catch (Exception e) {
-            e.printStackTrace();
+
+            System.out.println("PANIC: Failed to create a database connection");
+            System.out.println("ERROR: " + e.getMessage());
+
         }
 
         return con;
+
+    }
+
+    public static void closeConnection(Connection con) {
+
+        // Try closing the connection, otherwise print the errors on the console
+
+        try {
+
+            con.close();
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Error closing connection");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
 
     }
 

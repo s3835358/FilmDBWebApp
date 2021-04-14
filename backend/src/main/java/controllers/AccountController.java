@@ -8,17 +8,22 @@ public class AccountController {
 
     static public void login(Context ctx) {
 
-        String body = ctx.body();
+        JSONObject payload = new JSONObject(ctx.body());
 
-        JSONObject payload = new JSONObject(body);
+        // Get username, password from JSON decoded body
 
         String username = (String) payload.get("username");
         String password = (String) payload.get("password");
 
+        // Attempt to authenticate using LoginDAO
+
         String token = LoginDAO.login(username, password);
+
+        // Create a response JSON object
 
         JSONObject resp = new JSONObject();
 
+        // Populate it appropriately
 
         if (token != null) {
 
@@ -28,7 +33,7 @@ public class AccountController {
         } else {
 
             resp.put("success", false);
-            resp.put("message", "It seems you have put incorrect login details. Please try again!");
+            resp.put("message", "It seems you have used incorrect login details. Please try again!");
 
         }
 
@@ -37,7 +42,5 @@ public class AccountController {
         ctx.html(resp.toString());
 
     }
-
-    ;
 
 }
