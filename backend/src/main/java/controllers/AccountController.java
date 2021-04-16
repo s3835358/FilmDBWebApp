@@ -1,6 +1,7 @@
 package controllers;
 
 import io.javalin.http.Context;
+import models.Register;
 import org.json.JSONObject;
 import dao.LoginDAO;
 import util.Common;
@@ -20,39 +21,34 @@ public class AccountController {
         String email = (String) payload.get("email");
         String country = (String) payload.get("country");
         String gender = (String) payload.get("gender");
-        String zip_code = (String) payload.get("zip_code");
-        String birth_year = (String) payload.get("birth_year");
-        String user_type = (String) payload.get("user_type");
+        String zipCode = (String) payload.get("zip_code");
+        Integer birthYear = (Integer) payload.get("birth_year");
+        Integer userType = (Integer) payload.get("user_type");
+
+        // If userType == 2
+        Integer productionCompanyId = (Integer) payload.get("production_company");
+
+        // If userType == 2 or 3
+        Integer phoneNumber = (Integer) payload.get("phone_number");
+
+        // Create Register model
+
+        Register register = new Register(username, password, email, country, gender, firstName, lastName, zipCode, birthYear, userType, phoneNumber, productionCompanyId);
 
         // Create a response JSON object
 
-        JSONObject resp = new JSONObject();
-
-        Boolean errorEncountered = false;
+        JSONObject resp = register.validate();
 
         // Do some checks
 
-        if (Common.isUsernameValid(username)) {
+        if (((Boolean) resp.get("success"))) {
 
-            resp.put("success", true);
-            resp.put("message", "You have been successfully logged in!");
-
-            errorEncountered = true;
-
-        }
-
-        if (!errorEncountered) {
-
-            // Attempt to authenticate using RegisterDAO
-
-            Boolean accountCreated = RegisterDAO.register(username, firstName, lastName, password, email, country, gender, zip_code, birth_year, user_type);
-
-            // Populate it appropriately
+            Boolean accountCreated = register.create();
 
             if (accountCreated) {
 
                 resp.put("success", true);
-                resp.put("message", "You have been successfully logged in!");
+                resp.put("message", "Your account has been successfully created! You may login now.");
 
             } else {
 

@@ -5,12 +5,48 @@ public class User {
     private String username;
     private String passwordHash;
     private String email;
+    private Integer userType;
     private String country;
     private String gender;
     private String firstName;
     private String lastName;
     private String token;
+    private Integer birthYear;
+    private String zipCode;
+    private Integer phoneNumber;
 
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }
