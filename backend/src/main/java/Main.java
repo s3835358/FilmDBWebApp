@@ -10,6 +10,7 @@ class Main {
         Javalin app = Javalin.create().start(PORT);
 
         app.post("/login", AccountController::login);
+        app.post("/register", AccountController::register);
 
     }
 
