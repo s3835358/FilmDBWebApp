@@ -1,4 +1,4 @@
-package dao;
+package models;
 
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
@@ -7,12 +7,22 @@ import java.sql.ResultSet;
 import java.util.Base64;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import models.User;
+import dao.UserDAO;
 import util.*;
 
-public class LoginDAO {
+public class Login {
 
-    public static String login(String username, String password) {
+    private String username;
+    private String password;
+
+    public Login(String username, String password) {
+
+        this.username = username;
+        this.password = password;
+
+    }
+
+    public String authenticate() {
 
         Connection con = DBConnection.createConnection();
         String token;
@@ -23,7 +33,7 @@ public class LoginDAO {
 
             // Load the user with their username
 
-            PreparedStatement statement = con.prepareStatement("SELECT password, email, country, gender, first_name, last_name FROM account WHERE username = ?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM account WHERE username = ?");
             statement.setString(1, username);
             ResultSet res = statement.executeQuery();
 

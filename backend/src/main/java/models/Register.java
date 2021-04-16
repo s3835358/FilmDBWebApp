@@ -4,10 +4,6 @@ import dao.ProductionCompanyDAO;
 import dao.UserDAO;
 import org.json.JSONObject;
 import util.Common;
-import util.DBConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class Register {
 

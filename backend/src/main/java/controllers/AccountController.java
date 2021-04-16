@@ -1,10 +1,9 @@
 package controllers;
 
 import io.javalin.http.Context;
+import models.Login;
 import models.Register;
 import org.json.JSONObject;
-import dao.LoginDAO;
-import util.Common;
 
 public class AccountController {
 
@@ -74,7 +73,9 @@ public class AccountController {
 
         // Attempt to authenticate using LoginDAO
 
-        String token = LoginDAO.login(username, password);
+        Login login = new Login(username, password);
+
+        String token = login.authenticate();
 
         // Create a response JSON object
 
