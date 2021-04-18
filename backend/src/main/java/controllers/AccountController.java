@@ -21,14 +21,22 @@ public class AccountController {
         String country = (String) payload.get("country");
         String gender = (String) payload.get("gender");
         String zipCode = (String) payload.get("zip_code");
-        Integer birthYear = (Integer) payload.get("birth_year");
-        Integer userType = (Integer) payload.get("user_type");
+        Integer birthYear = Integer.parseInt((String) payload.get("birth_year"));
+        Integer userType = Integer.parseInt((String) payload.get("user_type"));
+
+        int phoneNumber = 0, productionCompanyId = 0;
 
         // If userType == 2
-        Integer productionCompanyId = (Integer) payload.get("production_company");
+
+        if(payload.has("production_company")) {
+            productionCompanyId = Integer.parseInt((String) payload.get("production_company"));
+        }
 
         // If userType == 2 or 3
-        Integer phoneNumber = (Integer) payload.get("phone_number");
+
+        if(payload.has("phone_number")) {
+            phoneNumber = Integer.parseInt((String) payload.get("phone_number"));
+        }
 
         // Create Register model
 
@@ -42,7 +50,7 @@ public class AccountController {
 
         if (((Boolean) resp.get("success"))) {
 
-            Boolean accountCreated = register.create();
+            Boolean accountCreated = register.createAccount();
 
             if (accountCreated) {
 
@@ -58,7 +66,7 @@ public class AccountController {
 
         }
 
-        ctx.html(resp.toString());
+        ctx.result(resp.toString());
 
     }
 

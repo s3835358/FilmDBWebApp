@@ -6,6 +6,7 @@ import util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class ProductionCompanyDAO {
 
@@ -36,6 +37,41 @@ public class ProductionCompanyDAO {
         }
 
         DBConnection.closeConnection(con);
+
+    }
+
+    public static ArrayList<ProductionCompany> getAll() {
+
+        ArrayList<ProductionCompany> productionCompanies = new ArrayList<ProductionCompany>();
+        Connection con = DBConnection.createConnection();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM production_company");
+            ResultSet res = statement.executeQuery();
+
+            while(res.next()) {
+
+                ProductionCompany productionCompany = new ProductionCompany();
+
+                Integer id = res.getInt("proco_id");
+                String name = res.getString("proco_name");
+
+                productionCompany.setId(id);
+                productionCompany.setName(name);
+
+                productionCompanies.add(productionCompany);
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get all production companies");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return productionCompanies;
 
     }
 

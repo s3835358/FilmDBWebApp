@@ -1,5 +1,6 @@
 package models;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import dao.ProductionCompanyDAO;
 import dao.UserDAO;
 import org.json.JSONObject;
@@ -7,19 +8,19 @@ import util.Common;
 
 public class Register {
 
-    private String username;
-    private String password;
-    private String email;
-    private String country;
-    private String gender;
-    private String firstName;
-    private String lastName;
-    private String token;
-    private String zipCode;
-    private Integer birthYear;
-    private Integer userType;
-    private Integer phoneNumber;
-    private Integer productionCompanyId;
+    private final String username;
+    private final String password;
+    private final String email;
+    private final String country;
+    private final String gender;
+    private final String firstName;
+    private final String lastName;
+    private final String token;
+    private final String zipCode;
+    private final Integer birthYear;
+    private final Integer userType;
+    private final Integer phoneNumber;
+    private final Integer productionCompanyId;
 
     public Register(String username, String password, String email, String country, String gender, String firstName, String lastName, String zipCode, Integer birthYear, Integer userType, Integer phoneNumber, Integer productionCompanyId) {
 
@@ -80,10 +81,10 @@ public class Register {
             resp.put("success", false);
             resp.put("message", "Please select a valid gender.");
 
-        } else if (!zipCode.isEmpty()) {
+        } else if (zipCode.isEmpty()) {
 
             resp.put("success", false);
-            resp.put("message", "Please select a valid gender.");
+            resp.put("message", "Please enter a valid ZIP Code.");
 
         } else if (birthYear < 1902 || birthYear > 2021) {
 
@@ -120,14 +121,16 @@ public class Register {
 
     }
 
-    public Boolean create() {
+    public Boolean createAccount() {
 
         User user = new User();
+        String passwordHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
 
         user.setUsername(username);
+        user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setPasswordHash(password);
+        user.setPasswordHash(passwordHash);
         user.setUserType(userType);
         user.setPhoneNumber(phoneNumber);
         user.setBirthYear(birthYear);

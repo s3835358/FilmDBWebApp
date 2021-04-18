@@ -35,6 +35,10 @@ public class UserDAO {
             statement.setInt(11, user.getPhoneNumber());
             statement.setString(12, user.getToken());
 
+            // Insert the row
+
+            statement.executeUpdate();
+
             return true;
 
         } catch (Exception e) {
@@ -110,7 +114,7 @@ public class UserDAO {
                 user.setToken(res.getString("token"));
                 user.setCountry(res.getString("country"));
                 user.setGender(res.getString("gender"));
-                user.setZipCode(res.getString("zipCode"));
+                user.setZipCode(res.getString("zip_code"));
 
             }
 

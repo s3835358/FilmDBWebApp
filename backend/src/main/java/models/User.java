@@ -68,11 +68,11 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = username;
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = username;
+        this.lastName = lastName;
     }
 
     public void setToken(String token) {
