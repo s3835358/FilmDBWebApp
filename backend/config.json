@@ -1,0 +1,8 @@
+{
+  "application_port": 80,
+  "database_host": "localhost",
+  "database_name": "core",
+  "database_username": "root",
+  "database_password": "securepassword",
+  "database_port": 3306
+}

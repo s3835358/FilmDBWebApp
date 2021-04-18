@@ -1,14 +1,17 @@
 import io.javalin.Javalin;
 import controllers.*;
 import io.javalin.core.util.Header;
+import util.Config;
 
 class Main {
 
-    static int PORT = 80;
-
     public static void main(String[] args) {
 
-        Javalin app = Javalin.create().start(PORT);
+        // Load the configuration
+
+        Config.loadConfig();
+
+        Javalin app = Javalin.create().start(Config.APPLICATION_PORT);
 
         // Account Management
 
@@ -20,7 +23,11 @@ class Main {
         app.get("/get-pcos", InformationController::getAllPcos);
 
 
+        // Admin Routes
 
+//        app.get("/admin/get-account-requests", AdminController::getAccountRequests);
+//        app.get("/admin/approve-account-request", AdminController::approveAccountRequest);
+//        app.get("/admin/reject-account-request", AdminController::rejectAccountRequest);
 
         // Set some properties such as headers, etc.
 
