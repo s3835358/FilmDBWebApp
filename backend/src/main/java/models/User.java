@@ -6,6 +6,7 @@ public class User {
     private String passwordHash;
     private String email;
     private Integer userType;
+    private Integer userApproved;
     private String country;
     private String gender;
     private String firstName;
@@ -13,7 +14,24 @@ public class User {
     private String token;
     private Integer birthYear;
     private String zipCode;
-    private Integer phoneNumber;
+    private String phoneNumber;
+    private Integer productionCompany;
+
+    public Integer getUserApproved() {
+        return userApproved;
+    }
+
+    public void setUserApproved(Integer userApproved) {
+        this.userApproved = userApproved;
+    }
+
+    public Integer getProductionCompany() {
+        return productionCompany;
+    }
+
+    public void setProductionCompany(Integer productionCompany) {
+        this.productionCompany = productionCompany;
+    }
 
     public Integer getUserType() {
         return userType;
@@ -39,11 +57,11 @@ public class User {
         this.zipCode = zipCode;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     

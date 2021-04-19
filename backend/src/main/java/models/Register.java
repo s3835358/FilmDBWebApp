@@ -19,10 +19,10 @@ public class Register {
     private final String zipCode;
     private final Integer birthYear;
     private final Integer userType;
-    private final Integer phoneNumber;
+    private final String phoneNumber;
     private final Integer productionCompanyId;
 
-    public Register(String username, String password, String email, String country, String gender, String firstName, String lastName, String zipCode, Integer birthYear, Integer userType, Integer phoneNumber, Integer productionCompanyId) {
+    public Register(String username, String password, String email, String country, String gender, String firstName, String lastName, String zipCode, Integer birthYear, Integer userType, String phoneNumber, Integer productionCompanyId) {
 
         this.username = username;
         this.password = password;
@@ -96,7 +96,7 @@ public class Register {
             resp.put("success", false);
             resp.put("message", "Please select a valid user type from the profile.");
 
-        } else if (userType > 1 && phoneNumber < 1) {
+        } else if (userType > 1 && phoneNumber.isEmpty()) {
 
             resp.put("success", false);
             resp.put("message", "Please enter the phone number required.");
@@ -125,6 +125,10 @@ public class Register {
 
         User user = new User();
         String passwordHash = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        int userApproved = 1;
+
+        if (userType > 1)
+            userApproved = 0;
 
         user.setUsername(username);
         user.setEmail(email);
@@ -132,12 +136,14 @@ public class Register {
         user.setLastName(lastName);
         user.setPasswordHash(passwordHash);
         user.setUserType(userType);
+        user.setUserApproved(userApproved);
         user.setPhoneNumber(phoneNumber);
         user.setBirthYear(birthYear);
         user.setToken(token);
         user.setCountry(country);
         user.setGender(gender);
         user.setZipCode(zipCode);
+        user.setProductionCompany(productionCompanyId);
 
         return UserDAO.add(user);
 

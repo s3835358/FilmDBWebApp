@@ -1,8 +1,69 @@
 package util;
 
+import models.ProductionCompany;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.regex.*;
 
 public class Common {
+
+    public static boolean isAdmin(String token) {
+
+        Connection con = DBConnection.createConnection();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT user_type FROM account WHERE token = ?");
+            statement.setString(1, token);
+            ResultSet res = statement.executeQuery();
+
+            if (res.next()) {
+
+                int userType = res.getInt("user_type");
+
+                if (userType == 4) {
+                    return true;
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get user type status");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return false;
+
+    }
+
+    public static boolean isLoggedIn(String token) {
+
+        Connection con = DBConnection.createConnection();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT username FROM account WHERE token = ?");
+            statement.setString(1, token);
+            ResultSet res = statement.executeQuery();
+
+            if (res.next()) {
+                return true;
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get user login status");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return false;
+
+    }
 
     public static boolean isUsernameValid(String username) {
 

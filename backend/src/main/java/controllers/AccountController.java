@@ -11,8 +11,6 @@ public class AccountController {
 
         JSONObject payload = new JSONObject(ctx.body());
 
-        // Get username, password from JSON decoded body
-
         String username = (String) payload.get("username");
         String firstName = (String) payload.get("first_name");
         String lastName = (String) payload.get("last_name");
@@ -22,20 +20,21 @@ public class AccountController {
         String gender = (String) payload.get("gender");
         String zipCode = (String) payload.get("zip_code");
         Integer birthYear = Integer.parseInt((String) payload.get("birth_year"));
-        Integer userType = Integer.parseInt((String) payload.get("user_type"));
+        int userType = Integer.parseInt((String) payload.get("user_type"));
 
-        int phoneNumber = 0, productionCompanyId = 0;
+        String phoneNumber = "";
+        int productionCompanyId = 0;
 
         // If userType == 2
 
-        if(payload.has("production_company")) {
+        if(userType == 2 && payload.has("production_company")) {
             productionCompanyId = Integer.parseInt((String) payload.get("production_company"));
         }
 
         // If userType == 2 or 3
 
-        if(payload.has("phone_number")) {
-            phoneNumber = Integer.parseInt((String) payload.get("phone_number"));
+        if(userType > 1 && userType < 4 && payload.has("phone_number")) {
+            phoneNumber = (String) payload.get("phone_number");
         }
 
         // Create Register model
@@ -105,7 +104,7 @@ public class AccountController {
 
         resp.put("token", token);
 
-        ctx.html(resp.toString());
+        ctx.result(resp.toString());
 
     }
 

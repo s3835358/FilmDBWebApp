@@ -18,7 +18,7 @@ public class UserDAO {
 
             // Create a MySQL prepared statement
 
-            PreparedStatement statement = con.prepareStatement("INSERT INTO account (username, password, email, user_type, country, gender, first_name, last_name, birth_year, zip_code, phone_number, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO account (username, password, email, user_type, country, gender, first_name, last_name, birth_year, zip_code, phone_number, token, user_approved, production_company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Plug in the parameters
 
@@ -32,8 +32,15 @@ public class UserDAO {
             statement.setString(8, user.getLastName());
             statement.setInt(9, user.getBirthYear());
             statement.setString(10, user.getZipCode());
-            statement.setInt(11, user.getPhoneNumber());
+            statement.setString(11, user.getPhoneNumber());
             statement.setString(12, user.getToken());
+            statement.setInt(13, user.getUserApproved());
+
+            if (user.getProductionCompany() > 0) {
+                statement.setInt(14, user.getProductionCompany());
+            } else {
+                statement.setNull(14, java.sql.Types.INTEGER);
+            }
 
             // Insert the row
 
@@ -109,7 +116,7 @@ public class UserDAO {
                 user.setLastName(res.getString("last_name"));
                 user.setPasswordHash(res.getString("password"));
                 user.setUserType(res.getInt("user_type"));
-                user.setPhoneNumber(res.getInt("phone_number"));
+                user.setPhoneNumber(res.getString("phone_number"));
                 user.setBirthYear(res.getInt("birth_year"));
                 user.setToken(res.getString("token"));
                 user.setCountry(res.getString("country"));
