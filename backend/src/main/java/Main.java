@@ -26,8 +26,8 @@ class Main {
         // Admin Routes
 
         app.post("/admin/get-account-requests", AdminController::getAccountRequests);
-//        app.get("/admin/approve-account-request", AdminController::approveAccountRequest);
-//        app.get("/admin/reject-account-request", AdminController::rejectAccountRequest);
+        app.post("/admin/approve-account-request", AdminController::approveAccountRequest);
+        app.post("/admin/reject-account-request", AdminController::rejectAccountRequest);
 
         // Set some properties such as headers, etc.
 

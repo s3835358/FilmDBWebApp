@@ -7,7 +7,16 @@ public class AccountRequest {
     private String email;
     private Integer userType;
     private String procoName;
-    private String phone_number;
+    private String phoneNumber;
+    private int userApproved;
+
+    public int getUserApproved() {
+        return userApproved;
+    }
+
+    public void setUserApproved(int userApproved) {
+        this.userApproved = userApproved;
+    }
 
     public String getName() {
         return name;
@@ -49,12 +58,12 @@ public class AccountRequest {
         this.procoName = procoName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
