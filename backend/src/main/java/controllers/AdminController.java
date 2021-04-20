@@ -1,12 +1,8 @@
 package controllers;
 
-import dao.AccountRequestDAO;
 import io.javalin.http.Context;
-import models.AccountRequest;
+import models.Admin;
 import org.json.JSONObject;
-import util.Common;
-
-import java.util.ArrayList;
 
 public class AdminController {
 
@@ -18,16 +14,11 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
 
-            if (!Common.isLoggedIn(token)) {
+            if (!preExecutionResponse.getBoolean("success")) {
 
-                resp.put("success", false);
-                resp.put("message", "Your session has expired. Please try logging in again.");
-
-            } else if (!Common.isAdmin(token)) {
-
-                resp.put("success", false);
-                resp.put("message", "You need to be an administrator to access this endpoint.");
+                resp = preExecutionResponse;
 
             } else if (!payload.has("username")) {
 
@@ -37,23 +28,8 @@ public class AdminController {
             } else {
 
                 String username = (String) payload.get("username");
-                AccountRequest accountRequest = AccountRequestDAO.get(username);
 
-                if (accountRequest.getUsername() == null) {
-
-                    resp.put("success", false);
-                    resp.put("message", "The account request does not exist!");
-
-                } else {
-
-                    accountRequest.setUserApproved(2);
-
-                    AccountRequestDAO.update(accountRequest);
-
-                    resp.put("success", true);
-                    resp.put("message", "The account status has been updated!");
-
-                }
+                resp = Admin.changeUserStatus(username, 2);
 
             }
 
@@ -71,16 +47,11 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
 
-            if (!Common.isLoggedIn(token)) {
+            if (!preExecutionResponse.getBoolean("success")) {
 
-                resp.put("success", false);
-                resp.put("message", "Your session has expired. Please try logging in again.");
-
-            } else if (!Common.isAdmin(token)) {
-
-                resp.put("success", false);
-                resp.put("message", "You need to be an administrator to access this endpoint.");
+                resp = preExecutionResponse;
 
             } else if (!payload.has("username")) {
 
@@ -90,23 +61,8 @@ public class AdminController {
             } else {
 
                 String username = (String) payload.get("username");
-                AccountRequest accountRequest = AccountRequestDAO.get(username);
 
-                if (accountRequest.getUsername() == null) {
-
-                    resp.put("success", false);
-                    resp.put("message", "The account request does not exist!");
-
-                } else {
-
-                    accountRequest.setUserApproved(1);
-
-                    AccountRequestDAO.update(accountRequest);
-
-                    resp.put("success", true);
-                    resp.put("message", "The account status has been updated!");
-
-                }
+                resp = Admin.changeUserStatus(username, 1);
 
             }
 
@@ -124,38 +80,15 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
 
-            if (!Common.isLoggedIn(token)) {
+            if (!preExecutionResponse.getBoolean("success")) {
 
-                resp.put("success", false);
-                resp.put("message", "Your session has expired. Please try logging in again.");
-
-            } else if (!Common.isAdmin(token)) {
-
-                resp.put("success", false);
-                resp.put("message", "You need to be an administrator to access this endpoint.");
+                resp = preExecutionResponse;
 
             } else {
 
-                ArrayList<AccountRequest> accountRequests = AccountRequestDAO.getAll();
-                int k = 0;
-
-                for (AccountRequest i : accountRequests) {
-
-                    JSONObject request = new JSONObject();
-
-                    request.put("name", i.getName());
-                    request.put("username", i.getUsername());
-                    request.put("email", i.getEmail());
-                    request.put("user_type", i.getEmail());
-                    request.put("proco_name", i.getProcoName());
-                    request.put("phone_number", i.getPhoneNumber());
-
-                    resp.put(String.valueOf(k), request);
-
-                    k++;
-
-                }
+                resp = Admin.getAccountRequests();
 
             }
 

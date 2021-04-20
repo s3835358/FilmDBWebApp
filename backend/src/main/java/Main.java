@@ -22,7 +22,6 @@ class Main {
 
         app.get("/get-pcos", InformationController::getAllPcos);
 
-
         // Admin Routes
 
         app.post("/admin/get-account-requests", AdminController::getAccountRequests);
