@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+.Form {
+  text-align: left;
+  background-image: url(./inherent.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+.Form-Header {
+  min-height: 89vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.Form-Form {
+  background-color:rgb(233, 234, 236,0.75);
+  border: 6px solid #000000;
+  color: #ffffff;
+  width:30%;
+}
+
+.Input-Email {
+  outline: none;
+  border: none;
+  min-height:50%;
+  width: 100%;
+  background-color:rgb(233, 234, 236,0.65);
+  font-size: calc(10px + 2vmin);
+  text-align: center;
+}
+
+.Input-Password {
+  outline: none;
+  border: none;
+  min-height:50%;
+  background-color:rgb(233, 234, 236,0.65);
+  font-size: calc(10px + 2vmin);
+  text-align: center;
+  display:table;
+  min-width: 20vh;
+  width: 100%;
+}
+
+.Form-Submit {
+  outline: none;
+  background-color: #000000;
+  border: none;
+  color: white;
+  width: 100%;
+  height:35%;
+  font-size: calc(3px + 2vmin);
+  text-decoration: none;
+  cursor: pointer;
+}

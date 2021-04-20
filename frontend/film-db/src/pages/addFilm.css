@@ -1,0 +1,53 @@
+.Film-Header{
+  background-image: url(./cleo.jpg);
+  background-size:cover;
+  min-height: 89vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8px + 2vmin);
+}
+
+.Film-Form{
+  background-color:rgb(233, 234, 236,0.75);
+  border: 6px solid #000000;
+  color: #ffffff;
+  display:table;
+  width:18%;
+}
+
+.Film-In{
+  background-color:rgb(233, 234, 236,0.5);
+  outline:none;
+  border:none;
+  max-height: 40px;
+  text-indent: 5%;
+  width:100%;
+}
+
+.Film-Sel{
+  background-color:rgb(233, 234, 236,0.5);
+  outline:none;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 4px 0px 4px 0px;
+  display:flex;
+  max-height: 40px;
+  text-indent: 2.5%;
+  width:100%;
+}
+
+.Film-Submit{
+  outline: none;
+  background-color: #000000;
+  border: none;
+  color: white;
+  width: 100%;
+  display:flex;
+  max-height: 40px;
+  padding: 10px 0px 16px 0px;
+  font-size: calc(3px + 2vmin);
+  text-decoration: none;
+  cursor: pointer;
+}
