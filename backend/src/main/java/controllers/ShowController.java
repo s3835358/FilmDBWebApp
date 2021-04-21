@@ -2,6 +2,7 @@ package controllers;
 
 import io.javalin.http.Context;
 import org.json.JSONObject;
+import services.ShowService;
 import util.Common;
 
 public class ShowController {
@@ -16,7 +17,7 @@ public class ShowController {
             String token = (String) payload.get("token");
             String title = (String) payload.get("title");
             int genre = Integer.parseInt((String) payload.get("genre"));
-            Double length = Double.parseDouble((String) payload.get("length"));
+            double length = Double.parseDouble((String) payload.get("length"));
             String type = (String) payload.get("type");
             int year = Integer.parseInt((String) payload.get("year"));
             int procoId = Integer.parseInt((String) payload.get("proco_id"));
@@ -29,15 +30,13 @@ public class ShowController {
 
             } else {
 
-                // resp = Show.add(username, 1);
+                resp = ShowService.add(title, genre, length, type, year, procoId, Common.getUserType(token));
 
             }
 
-            ctx.result("Hello");
-
         }
 
-        ctx.result("Hello");
+        ctx.result(resp.toString());
 
     }
 
