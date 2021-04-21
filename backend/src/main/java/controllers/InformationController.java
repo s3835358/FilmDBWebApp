@@ -14,4 +14,12 @@ public class InformationController {
 
     }
 
+    static public void getAllGenres(Context ctx) {
+
+        JSONObject resp = Information.getALlGenres();
+
+        ctx.result(resp.toString());
+
+    }
+
 }

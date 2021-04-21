@@ -21,12 +21,17 @@ class Main {
         // Information Getters
 
         app.get("/get-pcos", InformationController::getAllPcos);
+        app.get("/get-genres", InformationController::getAllGenres);
 
         // Admin Routes
 
         app.post("/admin/get-account-requests", AdminController::getAccountRequests);
         app.post("/admin/approve-account-request", AdminController::approveAccountRequest);
         app.post("/admin/reject-account-request", AdminController::rejectAccountRequest);
+
+        // Add a Show
+
+        app.post("/show/add", ShowController::addShow);
 
         // Set some properties such as headers, etc.
 
