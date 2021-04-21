@@ -1,0 +1,38 @@
+.credButton{
+  font-size: calc(8px + 2vmin);
+  display: inline-block;
+  width:50%;
+  height: 100%;
+  text-align: center;
+  padding-top: 6%;
+  background-color: black;
+}
+.credButton2{
+  font-size: calc(8px + 2vmin);
+  display: inline-block;
+  width:50%;
+  height: 100%;
+  text-align: center;
+  padding-top: 6%;
+  background-color: black;
+}
+.menu-items{
+  font-size: calc(30px + 2vmin);
+  margin: 0px 0px 0px 0px;
+  width:300px;
+  text-indent: 15%;
+  
+}
+
+.ml-auto{
+  background-color: rgb(255, 255, 255);
+  height:100%;
+  display: inline-block;
+  align-items: right;
+  width:20%;
+  
+}
+
+.bar{
+  width:100%;
+}
