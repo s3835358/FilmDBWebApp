@@ -1,14 +1,14 @@
 package controllers;
 
 import io.javalin.http.Context;
-import models.Information;
+import services.InformationService;
 import org.json.JSONObject;
 
 public class InformationController {
 
     static public void getAllPcos(Context ctx) {
 
-        JSONObject resp = Information.getAllPCOs();
+        JSONObject resp = InformationService.getAllPCOs();
 
         ctx.result(resp.toString());
 
@@ -16,7 +16,7 @@ public class InformationController {
 
     static public void getAllGenres(Context ctx) {
 
-        JSONObject resp = Information.getALlGenres();
+        JSONObject resp = InformationService.getALlGenres();
 
         ctx.result(resp.toString());
 

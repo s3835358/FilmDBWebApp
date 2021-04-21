@@ -1,13 +1,14 @@
-package models;
+package services;
 
 import dao.AccountRequestDAO;
+import models.AccountRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import util.Common;
 
 import java.util.ArrayList;
 
-public class Admin {
+public class AdminService {
 
     public static JSONObject beforeExecutionCheck(String token) {
 

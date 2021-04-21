@@ -1,8 +1,8 @@
 package controllers;
 
 import io.javalin.http.Context;
-import models.Login;
-import models.Register;
+import services.LoginService;
+import services.RegisterService;
 import org.json.JSONObject;
 
 public class AccountController {
@@ -39,7 +39,7 @@ public class AccountController {
 
         // Create Register model
 
-        Register register = new Register(username, password, email, country, gender, firstName, lastName, zipCode, birthYear, userType, phoneNumber, productionCompanyId);
+        RegisterService register = new RegisterService(username, password, email, country, gender, firstName, lastName, zipCode, birthYear, userType, phoneNumber, productionCompanyId);
 
         // Create a response JSON object
 
@@ -80,7 +80,7 @@ public class AccountController {
 
         // Attempt to authenticate using LoginDAO
 
-        Login login = new Login(username, password);
+        LoginService login = new LoginService(username, password);
 
         String token = login.authenticate();
 

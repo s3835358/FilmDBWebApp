@@ -1,29 +1,41 @@
 package controllers;
 
 import io.javalin.http.Context;
-import models.Login;
-import models.Register;
 import org.json.JSONObject;
+import util.Common;
 
 public class ShowController {
 
     static public void addShow(Context ctx) {
 
         JSONObject payload = new JSONObject(ctx.body());
+        JSONObject resp = new JSONObject();
 
-        String username = (String) payload.get("username");
-        String firstName = (String) payload.get("first_name");
-        String lastName = (String) payload.get("last_name");
-        String password = (String) payload.get("password");
-        String email = (String) payload.get("email");
-        String country = (String) payload.get("country");
-        String gender = (String) payload.get("gender");
-        String zipCode = (String) payload.get("zip_code");
-        Integer birthYear = Integer.parseInt((String) payload.get("birth_year"));
-        int userType = Integer.parseInt((String) payload.get("user_type"));
+        if (payload.has("token")) {
 
-        String phoneNumber = "";
-        int productionCompanyId = 0;
+            String token = (String) payload.get("token");
+            String title = (String) payload.get("title");
+            int genre = Integer.parseInt((String) payload.get("genre"));
+            Double length = Double.parseDouble((String) payload.get("length"));
+            String type = (String) payload.get("type");
+            int year = Integer.parseInt((String) payload.get("year"));
+            int procoId = Integer.parseInt((String) payload.get("proco_id"));
+
+            JSONObject userLoggedInCheck = Common.userLoggedInCheck(token);
+
+            if (!userLoggedInCheck.getBoolean("success")) {
+
+                resp = userLoggedInCheck;
+
+            } else {
+
+                // resp = Show.add(username, 1);
+
+            }
+
+            ctx.result("Hello");
+
+        }
 
         ctx.result("Hello");
 

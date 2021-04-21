@@ -1,4 +1,4 @@
-package models;
+package services;
 
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
@@ -8,14 +8,15 @@ import java.util.Base64;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import dao.UserDAO;
+import models.User;
 import util.*;
 
-public class Login {
+public class LoginService {
 
     private final String username;
     private final String password;
 
-    public Login(String username, String password) {
+    public LoginService(String username, String password) {
 
         this.username = username;
         this.password = password;

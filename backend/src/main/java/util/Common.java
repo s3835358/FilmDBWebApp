@@ -1,6 +1,7 @@
 package util;
 
 import models.ProductionCompany;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +9,25 @@ import java.sql.ResultSet;
 import java.util.regex.*;
 
 public class Common {
+
+    public static JSONObject userLoggedInCheck(String token) {
+
+        JSONObject output = new JSONObject();
+
+        if (!Common.isLoggedIn(token)) {
+
+            output.put("success", false);
+            output.put("message", "Your session has expired. Please try logging in again.");
+
+        } else {
+
+            output.put("success", true);
+
+        }
+
+        return output;
+
+    }
 
     public static boolean isAdmin(String token) {
 

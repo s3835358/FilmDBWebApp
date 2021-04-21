@@ -1,12 +1,14 @@
-package models;
+package services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import dao.ProductionCompanyDAO;
 import dao.UserDAO;
+import models.ProductionCompany;
+import models.User;
 import org.json.JSONObject;
 import util.Common;
 
-public class Register {
+public class RegisterService {
 
     private final String username;
     private final String password;
@@ -22,7 +24,7 @@ public class Register {
     private final String phoneNumber;
     private final Integer productionCompanyId;
 
-    public Register(String username, String password, String email, String country, String gender, String firstName, String lastName, String zipCode, Integer birthYear, Integer userType, String phoneNumber, Integer productionCompanyId) {
+    public RegisterService(String username, String password, String email, String country, String gender, String firstName, String lastName, String zipCode, Integer birthYear, Integer userType, String phoneNumber, Integer productionCompanyId) {
 
         this.username = username;
         this.password = password;

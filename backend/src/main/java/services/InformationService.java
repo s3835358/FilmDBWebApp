@@ -1,13 +1,15 @@
-package models;
+package services;
 
 import dao.GenreDAO;
 import dao.ProductionCompanyDAO;
+import models.Genre;
+import models.ProductionCompany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Information {
+public class InformationService {
 
     public static JSONObject getAllPCOs() {
 

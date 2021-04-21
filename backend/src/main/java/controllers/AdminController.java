@@ -1,7 +1,7 @@
 package controllers;
 
 import io.javalin.http.Context;
-import models.Admin;
+import services.AdminService;
 import org.json.JSONObject;
 
 public class AdminController {
@@ -14,7 +14,7 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
-            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
 
             if (!preExecutionResponse.getBoolean("success")) {
 
@@ -29,7 +29,7 @@ public class AdminController {
 
                 String username = (String) payload.get("username");
 
-                resp = Admin.changeUserStatus(username, 2);
+                resp = AdminService.changeUserStatus(username, 2);
 
             }
 
@@ -47,7 +47,7 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
-            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
 
             if (!preExecutionResponse.getBoolean("success")) {
 
@@ -62,7 +62,7 @@ public class AdminController {
 
                 String username = (String) payload.get("username");
 
-                resp = Admin.changeUserStatus(username, 1);
+                resp = AdminService.changeUserStatus(username, 1);
 
             }
 
@@ -80,7 +80,7 @@ public class AdminController {
         if (payload.has("token")) {
 
             String token = (String) payload.get("token");
-            JSONObject preExecutionResponse = Admin.beforeExecutionCheck(token);
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
 
             if (!preExecutionResponse.getBoolean("success")) {
 
@@ -88,7 +88,7 @@ public class AdminController {
 
             } else {
 
-                resp = Admin.getAccountRequests();
+                resp = AdminService.getAccountRequests();
 
             }
 
