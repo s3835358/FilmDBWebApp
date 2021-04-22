@@ -33,6 +33,17 @@ class Main {
 
         app.post("/show/add", ShowController::addShow);
 
+
+
+
+
+        // Error 404
+
+        app.error(404, ctx -> {
+            ctx.status(200);
+            ctx.result("{\"success\": false}");
+        });
+
         // Set some properties such as headers, etc.
 
         app.before(ctx -> {
@@ -44,6 +55,8 @@ class Main {
             // Set CORS to * so that everyone can access the API
 
             ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            ctx.header(Header.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, OPTIONS");
+            ctx.header(Header.ACCESS_CONTROL_ALLOW_HEADERS, "*");
 
         });
 
