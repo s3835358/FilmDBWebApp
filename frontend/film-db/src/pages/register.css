@@ -1,5 +1,6 @@
+
 .Reg-Header{
-  background-image: url(./ashes.jpg);
+  background-image: url(./images/ashes.jpg);
   background-size:cover;
   min-height: 89vh;
   display: flex;
@@ -18,9 +19,9 @@
 .Reg-Form{
   background-color:rgb(233, 234, 236,0.75);
   border: 6px solid #000000;
-  color: #ffffff;
+  color: #000000;
   display:table;
-  width:50%;
+  width:35%;
 }
 
 .Reg-In-R{
@@ -54,14 +55,7 @@
 
 .Reg-Sel{
   background-color:rgb(233, 234, 236,0.5);
-  outline:none;
-  border-style: solid;
-  border-color: #000000;
-  border-width: 0px 0px 4px 0px;
-  display:flex;
-  max-height: 40px;
-  text-indent: 2.5%;
-  width:100%;
+  
 }
 .Reg-Sel-T{
   background-color:rgb(233, 234, 236,0.5);
@@ -87,4 +81,16 @@
   font-size: calc(3px + 2vmin);
   text-decoration: none;
   cursor: pointer;
+}
+
+.Reg-Title{
+  background-color:#000;
+  border: 6px 0px 0px 0px solid #000000;
+  color: #ffffff;
+  display:block;
+  width:35%;
+  height: 40px;
+  padding-top: .6%;
+  font-size: calc(3px + 2vmin);
+  text-align: center;
 }

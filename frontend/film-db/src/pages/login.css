@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
 .Form {
   text-align: left;
-  background-image: url(./inherent.jpg);
+  background-image: url(./images/inherent.jpg);
   background-position: center;
   background-size: cover;
 }

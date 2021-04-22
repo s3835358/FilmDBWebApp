@@ -7,7 +7,7 @@ const Navbar = () => {
     <div >
       <Nav >
         <NavMenu >
-          <NavLink className="menu-items" to="/home" activeStyle={{color:'black', background:'white'}} style={{
+          <NavLink className="menu-items" to="/test" activeStyle={{color:'black', background:'white'}} style={{
           textDecoration:'none',
           color:'white'
           }}>
@@ -26,14 +26,14 @@ const Navbar = () => {
             Admin
           </NavLink>
           <div className="ml-auto">
-            <NavLink className="credButton" to="/Form" activeStyle={{color:'black', background:'white'}} style={{
+            <NavLink className="credButton" to="/login" activeStyle={{color:'black', background:'white'}} style={{
             textDecoration:'none',
             color:'white'
             }}>
               Log In
             </NavLink>
             
-            <NavLink className="credButton2" to="/about" activeStyle={{color:'black', background:'white'}} style={{
+            <NavLink className="credButton2" to="/register" activeStyle={{color:'black', background:'white'}} style={{
             textDecoration:'none',
             color:'white'
             }}>

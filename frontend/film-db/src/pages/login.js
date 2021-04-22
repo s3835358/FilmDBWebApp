@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './Form.css';
+import './login.css';
 
-class Form extends Component {
+
+class Login extends Component {
     
     constructor(props) {
         super(props);
@@ -11,6 +12,9 @@ class Form extends Component {
         this.emailChange = this.emailChange.bind(this);
         this.passwordChange = this.passwordChange.bind(this);
     }
+
+    
+    
 
     emailChange(event) {
         
@@ -56,4 +60,4 @@ class Form extends Component {
     }
 }
 
-export default Form; 
+export default Login; 
