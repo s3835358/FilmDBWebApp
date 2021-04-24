@@ -4,7 +4,7 @@ import API from '../api';
 import Select from 'react-select';
 
 const Register = () => {
-
+    
     const [state,setState] = useState({
         first:"",
         last:"",
@@ -27,7 +27,8 @@ const Register = () => {
             var len = res.data['pcos'].length;
             for(var i = 0; i < len;i++) {
                 var name = res.data['pcos'][i].name;
-                pcos[i] = { value: name, label: name };
+                var id = res.data['pcos'][i].id;
+                pcos[i] = { value: id, label: name };
             }
         })
         return pcos;
@@ -70,6 +71,19 @@ const Register = () => {
     const userTypes = [{ value: "1", label: "Basic User" },{ value: "2", label: "Production Company" },{ value: "3", label: "Critic" }];
 
     function handleSubmit() {
+        var hardcode={
+            "username": "Fish",
+            "first_name": "Ocean",
+            "last_name": "Swim",
+            "password": "fishes",
+            "email": "fish@river.com",
+            "country": "Australia",
+            "gender": "Female",
+            "zip_code": "3000",
+            "birth_year": "1993",
+            "user_type": "2",
+            "production_company":"2"
+        }
         var req = {
             "username": state.userName,
             "first_name": state.first,
@@ -79,11 +93,12 @@ const Register = () => {
             "country": state.country,
             "gender": state.gender,
             "zip_code": state.zip_code,
-            "birth_year": state.year,
+            "birth_year": String(state.year),
             "user_type": state.user,
-            "production_company":state.pCo,
+            "production_company":String(state.pCo),
             "phone_number": state.phNum
         }
+        console.log(req)
         API.post(`register`,req).then(res => {
             console.log(res);
         }).catch(err =>{
@@ -186,7 +201,7 @@ const Register = () => {
                         :null
                     }  
                     {
-                        state.user.match("3")?
+                        state.user.match("3") || state.user.match("2")?
                         <input
                             value={state.phNum}
                             onChange={(ev) => setState({...state, phNum: ev.target.value})}

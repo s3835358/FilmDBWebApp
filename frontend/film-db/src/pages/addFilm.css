@@ -38,6 +38,18 @@
   width:100%;
 }
 
+.Film-Sel2{
+  background-color:rgb(233, 234, 236,0.5);
+  outline:none;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 4px 0px 0px 0px;
+  display:flex;
+  max-height: 40px;
+  text-indent: 2.5%;
+  width:100%;
+}
+
 .Film-Submit{
   outline: none;
   background-color: #000000;

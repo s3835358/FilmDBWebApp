@@ -1,4 +1,18 @@
+
 .Admin-Form{
-  width:50px;
-  align-items: center;
+  width: 70%;
+  display:block;
+  padding-left: 25%;
+}
+.Admin-Submit{
+  outline: none;
+  background-color: #000000;
+  border: 1px solid white;
+  color: white;
+  max-height: 40px;
+  text-align: center;
+  font-size: calc(3px + 2vmin);
+  cursor: pointer;
+  width: 50%;
+  display:inline-block;
 }

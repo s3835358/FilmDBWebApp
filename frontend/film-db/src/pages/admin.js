@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useContext} from 'react'
 import styled from 'styled-components'
 import {useTable} from 'react-table'
 import Select from 'react-select'
-
+import API from '../api';
+import './admin.css'
+import {UserContext} from '../UserContext';
+import {PcoContext} from '../PcoContext';
 
 export const Admin = () => {
+
+    const {user, token, setUser, setToken} = useContext(UserContext);
+    const {pco, setPco} = useContext(PcoContext);
+    const [data, setData] = useState([]);
 
     const Styles = styled.div`
         padding: 1rem;
@@ -37,21 +44,41 @@ export const Admin = () => {
     `
 
     const [state,setState] = useState({
-      approved:[]
+      selected:"",
+      requests:[],
     })
 
+    function approve(){
+        API.post(`admin/approve-account-request`,{token:token, username: state.selected}).then(res => {
+            console.log(res);
+          }).catch(err =>{
+              console.log(err);
+        })
+    }
+    function reject(){
+        API.post(`admin/reject-account-request`,{token:token, username: state.selected}).then(res => {
+            console.log(res);
+          }).catch(err =>{
+              console.log(err);
+        })
+    }
     const Users = ["User 1","User 2","User 3","User 4","User 5"];
+    
 
-    function getOpts(obj) {
-      var opts=[];
-      
-      for(var i = 0; i < obj.length;i++) {
-          var name = obj[i];
-          opts[i] = { value: name, label: name };
-      }
-      
-      return opts;
-  };
+    function getOpts() {
+        var arr =[];
+        for(var i = 0; i <data.length;i++) {
+            arr.push(data[i].username);
+        }
+        var opts=[];
+        
+        for(var i = 0; i < arr.length;i++) {
+            var name = arr[i];
+            opts[i] = { value: name, label: name };
+        }
+        
+        return opts;
+    };
 
     const customStyles = {
         
@@ -75,31 +102,33 @@ export const Admin = () => {
       })
   }
 
-    
-    const data = React.useMemo(
-        () => 
-        [
-          {
-            colUserType: 'Basic User',colName:'Declan', colEmail:'d@e.co',colUsername: 'decFace02',colPCO: 'Miramax',
-          },
-          {
-            colUserType: 'Basic User',colName:'Declan', colEmail:'d@e.co',colUsername: 'decFace02',colPCO: 'Miramax',
-          },
-          {
-            colUserType: 'Basic User',colName:'Declan', colEmail:'d@e.co',colUsername: 'decFace02',colPCO: 'Miramax',
-            
-          },
-        ],
-        []
-    )
+
+    function request(){ 
+        API.post(`admin/get-account-requests`,{token:token}).then(res => {
+          console.log(res);
+          var len = res.data['requests'].length;
+          for(var i = 0; i < len;i++){
+            //When is REQUESTS used?
+            state.requests.push(res.data['requests'][i])
+          }
+          setData(res.data['requests']);
+        }).catch(err =>{
+            console.log(err);
+        })
+        console.log(token);
+        console.log(state.requests);
+    }
+
+
+
     
     const columns = React.useMemo(
         () => [
-          {Header: 'User Type', accessor: 'colUserType',},
-          {Header: 'Name', accessor: 'colName',},
-          {Header: 'Email', accessor: 'colEmail',},
-          {Header: 'User Name', accessor: 'colUsername',},
-          {Header: 'Production Company', accessor: 'colPCO',},
+          {Header: 'User Type', accessor: 'user_type',},
+          {Header: 'Name', accessor: 'name',},
+          {Header: 'Email', accessor: 'email',},
+          {Header: 'User Name', accessor: 'username',},
+          {Header: 'Production Company', accessor: 'proco_name',},
         ],
         []
     )
@@ -161,20 +190,29 @@ export const Admin = () => {
                   </tbody>
               </table>
           </Styles>
-          <form className="Admin-Form">
+          <div className="Admin-Form">
             <Select 
-              isMulti={true}
               styles={customStyles}
               placeholder="Add User"
               options={getOpts(Users)} 
-              onChange={opt => setState({...state, approved: opt.value})}
+              onChange={opt => setState({...state, selected: opt.value})}
             />
+            <br/>
             <input 
-                className="Reg-Submit"
+                className="Admin-Submit"
                 type="submit" 
+                onClick={approve}
                 value="APPROVE" 
             />
-          </form>
+            <input 
+                className="Admin-Submit"
+                type="submit" 
+                onClick={reject}
+                value="REJECT" 
+            />
+          </div>
+          <input type="button" value="Click me" onClick={request}></input>
+          <div></div>
       </div>
     )
 }

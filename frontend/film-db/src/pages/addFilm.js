@@ -1,32 +1,101 @@
-import React, { useState } from 'react'
-import './addFilm.css'
+import React, { useState, useContext } from 'react';
+import './addFilm.css';
+import API from '../api';
+import Select from 'react-select';
+import {UserContext} from '../UserContext';
 
 const AddFilm = () => {
 
     const [state,setState] = useState({
         title:"",
-        length:null,
-        releaseDate:"Year-Month-Day",
+        length:"",
+        year:"",
         director:"",
-        actors:[],
+        type:"",
         pCo:"",
         genre:"",
     });
 
+    const {user, token, setUser, setToken} = useContext(UserContext);
+
+    const customStyles = {
+        
+        option: (provided) => ({
+          ...provided,
+          borderBottom: '1px dotted pink',
+          color: "black",
+          boxShadow: "none",
+          borderColor: 'gray',
+          '&:hover': { borderColor: 'gray' },
+          backgroundColor: "rgb(233, 234, 236,0.5)",          
+        }),
+        control: (provided) => ({
+            ...provided,
+            borderTop: '4px solid black',
+            borderColor: 'gray',
+            color: "black",
+            '&:hover': { borderColor: 'gray' },
+            boxShadow: "none",
+            backgroundColor: "rgb(233, 234, 236,0.5)",          
+        })
+    }
+
+
     function handleSubmit() {
-        alert(state.title + " " +
+        var req = {
+            // UPDATE
+            token:token,
+            title:state.title,
+            genre:String(state.genre),
+            length:String(state.length),
+            type: String(state.type),
+            year: String(state.year),
+            proco_id: String(state.pCo),
+        }
+        alert(
+            token+ " " +
+            state.title + " " +
+            state.genre + " " +
             state.length + " " +
-            state.releaseDate +" " +
-            state.director +" " +
-            state.actors +" " +
-            state.pCo +" " +
-            state.genre +" "
-            );
+            state.type + " " +
+            state.year +" " +
+            state.pCo +" "
+        );
+        API.post(`show/add`, req).then(res => {
+            console.log(res.data)
+        })
     };
+
+    function getGenres() {
+        var genres=[];
+        API.get(`get-genres`).then(res => {
+            var len = res.data['genres'].length;
+            for(var i = 0; i < len;i++) {
+                var name = res.data['genres'][i].name;
+                var id = res.data['genres'][i].id;
+                genres[i] = { value: id, label: name };
+            }
+        })
+        return genres;
+    };
+
+    function getPCOS() {
+        var pcos=[];
+        API.get(`get-pcos`).then(res => {
+            var len = res.data['pcos'].length;
+            for(var i = 0; i < len;i++) {
+                var name = res.data['pcos'][i].name;
+                var id = res.data['pcos'][i].id;
+                pcos[i] = { value: id, label: name };
+            }
+        })
+        return pcos;
+    };
+
     return (
         <div> 
             <header className="Film-Header">
-                <form className="Film-Form" onSubmit={handleSubmit}>
+                <div className="Film-Form">
                     
                     <input
                         className="Film-In"
@@ -35,64 +104,49 @@ const AddFilm = () => {
                         placeholder="Film Title.."
                         type="text"
                     />
-                    <input
-                        className="Film-In"
-                        value={state.director}
-                        onChange={(ev) => setState({...state, director: ev.target.value})}
-                        placeholder="Director Name.."
-                        type="text"
-                    />
-                    <input 
-                        className="Film-In"
-                        value={state.pCo}
-                        onChange={(ev) => setState({...state, pCo: ev.target.value})}
-                        placeholder="Production Company.."
-                        type="text" 
-                    />
                     <input 
                         className="Film-In"
                         value={state.length}
                         onChange={(ev) => setState({...state, length: ev.target.value})}
-                        placeholder="Film Length (minutes).."
+                        placeholder="Length.."
                         type="text" 
                     />
                     <input
                         className="Film-In"
-                        value={state.releaseDate}
-                        onChange={(ev) => setState({...state, releaseDate: ev.target.value})}
+                        value={state.year}
+                        onChange={(ev) => setState({...state, year: ev.target.value})}
                         placeholder="1990"
-                        type="date"
-                        min="1800-01-01"
-                        max="2025-01-01"
-                        name="date"
-                        id="date"
+                        type="number"
+                        min="1850"
+                        max="2025"
+                        name="year"
+                        id="year"
                     />
-                    <select required
-                        value={state.genre} 
-                        onChange={(ev) => setState({...state, genre: ev.target.value})}
-                        className="Film-Sel"
-                        name="Gender" 
-                        id="gender">
-                        <option value="" disabled selected>Select Genre..</option>
-                        <option value="Action">Action</option>
-                        <option value="Animation">Animation</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Crime">Crime</option>
-                        <option value="Documentary">Documentary</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Horror">Horror</option>
-                        <option value="Period">Period</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Sci-Fi">Sci-Fi</option>
-                        <option value="Thriller">Thriller</option>
-                    </select>
+                    <Select 
+                        styles={customStyles}
+                        placeholder="Format.."
+                        options={[{ value: "MOVIE", label: "MOVIE" },{ value: "SERIES", label: "SERIES" }]}
+                        onChange={opt => setState({...state, type: opt.value})}
+                    />
+                    <Select 
+                        styles={customStyles}
+                        placeholder="Genre.."
+                        options={getGenres()}
+                        onChange={opt => setState({...state, genre: opt.value})}
+                    />
+                    <Select 
+                            styles={customStyles}
+                            placeholder="Production Company"
+                            options={getPCOS()} 
+                            onChange={opt => setState({...state, pCo: opt.value})}
+                    />
                     <input 
                         className="Film-Submit"
                         type="submit" 
+                        onClick={handleSubmit}
                         value="ADD FILM" 
                     />
-                </form>
+                </div>
             </header>
         </div>
     )
