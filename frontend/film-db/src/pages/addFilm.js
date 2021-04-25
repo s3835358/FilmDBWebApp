@@ -2,7 +2,9 @@ import React, { useState, useContext } from 'react';
 import './addFilm.css';
 import API from '../api';
 import Select from 'react-select';
-import {UserContext} from '../UserContext';
+import {UserContext} from '../data/UserContext';
+import {customStyles} from '../components/selectStyle';
+import { DataContext } from '../data/DataContext';
 
 const AddFilm = () => {
 
@@ -16,34 +18,12 @@ const AddFilm = () => {
         genre:"",
     });
 
-    const {user, token, setUser, setToken} = useContext(UserContext);
-
-    const customStyles = {
-        
-        option: (provided) => ({
-          ...provided,
-          borderBottom: '1px dotted pink',
-          color: "black",
-          boxShadow: "none",
-          borderColor: 'gray',
-          '&:hover': { borderColor: 'gray' },
-          backgroundColor: "rgb(233, 234, 236,0.5)",          
-        }),
-        control: (provided) => ({
-            ...provided,
-            borderTop: '4px solid black',
-            borderColor: 'gray',
-            color: "black",
-            '&:hover': { borderColor: 'gray' },
-            boxShadow: "none",
-            backgroundColor: "rgb(233, 234, 236,0.5)",          
-        })
-    }
-
+    const {token} = useContext(UserContext);
+    const {pcos} = useContext(DataContext);
 
     function handleSubmit() {
+        
         var req = {
-            // UPDATE
             token:token,
             title:state.title,
             genre:String(state.genre),
@@ -52,22 +32,17 @@ const AddFilm = () => {
             year: String(state.year),
             proco_id: String(state.pCo),
         }
-        alert(
-            token+ " " +
-            state.title + " " +
-            state.genre + " " +
-            state.length + " " +
-            state.type + " " +
-            state.year +" " +
-            state.pCo +" "
-        );
+        // Post request to add a show
         API.post(`show/add`, req).then(res => {
-            console.log(res.data)
+            alert(res.data.message);
+        }).catch(err =>{
+            alert("Incorrect Values");
         })
     };
 
     function getGenres() {
         var genres=[];
+        // Get request to instantiate object containing genres and their id values
         API.get(`get-genres`).then(res => {
             var len = res.data['genres'].length;
             for(var i = 0; i < len;i++) {
@@ -79,18 +54,6 @@ const AddFilm = () => {
         return genres;
     };
 
-    function getPCOS() {
-        var pcos=[];
-        API.get(`get-pcos`).then(res => {
-            var len = res.data['pcos'].length;
-            for(var i = 0; i < len;i++) {
-                var name = res.data['pcos'][i].name;
-                var id = res.data['pcos'][i].id;
-                pcos[i] = { value: id, label: name };
-            }
-        })
-        return pcos;
-    };
 
     return (
         <div> 
@@ -137,7 +100,7 @@ const AddFilm = () => {
                     <Select 
                             styles={customStyles}
                             placeholder="Production Company"
-                            options={getPCOS()} 
+                            options={pcos} 
                             onChange={opt => setState({...state, pCo: opt.value})}
                     />
                     <input 

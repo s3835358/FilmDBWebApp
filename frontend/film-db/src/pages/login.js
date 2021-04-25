@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './login.css';
 import API from '../api';
-import {UserContext} from '../UserContext';
+import {UserContext} from '../data/UserContext';
 
 
 const Login = () => {
@@ -10,39 +10,34 @@ const Login = () => {
         userName: '',
         password: '',
         loggedIn: 'false',
-        token:'',
+        message:'',
     });
 
-    const {user, token, setUser, setToken} = useContext(UserContext);
+    const {user, setUser, setToken} = useContext(UserContext);
+    
     
     function handleSubmit() {
         var req = {
             "username": state.userName,
             "password": state.password,
         }
+
+        // Post request to api, passing our username and password as data
         API.post(`login`,req).then(res => {
-            console.log(res);
+
             if(res.data.success) {
-                //loggedInChange();
-                setState({...state, token: String(res.data.token)})
                 setToken(String(res.data.token))
                 setUser(state.userName)
-                console.log(String(res.data.token))
+            } else{
+                // Tell user what went wrong with submission
+                alert(res.data.message);
             }
+
         }).catch(err =>{
-            console.log(err);
+            // Tell user what went wrong with submission
+            alert(err);
         })
     }    
-    //Currently toggles
-    function loggedInChange() {
-        var change = "true";
-        if(state.loggedIn.match("true")) {
-            change="false";
-        } else {
-            
-        }
-        setState({...state, loggedIn: change});
-    }
     
 
     function userNameChange(event) {
@@ -59,8 +54,11 @@ const Login = () => {
     return(
         <div className="Form">
             <header className="Form-Header">
+                
                 {user.match("Guest")?
+
                 <div className="Form-Form">
+
                     <input 
                         className="Input-UserName"
                         placeholder="Username.."
@@ -81,10 +79,14 @@ const Login = () => {
                         className="Form-Submit"
                         onClick={handleSubmit}
                         type="submit" 
-                        value="SUBMIT" 
+                        value="LOG IN" 
                     />
+
+                    <div>{state.message}</div>
+
                 </div>
                 :
+                // Prevent logged in user from attempting to log in again
                 <div 
                     style={{backgroundColor:"rgb(233, 234, 236,0.75)", width:"30%",
                     height:"20%", border:"4px solid black", textAlign:"center"}}> 
