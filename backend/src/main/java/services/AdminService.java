@@ -69,11 +69,22 @@ public class AdminService {
         for (AccountRequest i : accountRequests) {
 
             JSONObject request = new JSONObject();
+            String userTypeTranslated;
+
+            if (i.getUserType() == 1) {
+                userTypeTranslated = "Normal User";
+            } else if (i.getUserType() == 2) {
+                userTypeTranslated = "PCo";
+            } else if (i.getUserType() == 3) {
+                userTypeTranslated = "Critic";
+            } else {
+                userTypeTranslated = "Admin";
+            }
 
             request.put("name", i.getName());
             request.put("username", i.getUsername());
             request.put("email", i.getEmail());
-            request.put("user_type", i.getEmail());
+            request.put("user_type", userTypeTranslated);
             request.put("proco_name", i.getProcoName());
             request.put("phone_number", i.getPhoneNumber());
 
