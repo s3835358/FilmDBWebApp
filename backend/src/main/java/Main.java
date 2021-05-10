@@ -33,6 +33,7 @@ class Main {
         app.post("/admin/approve-pending-show", AdminController::approvePendingShow);
         app.post("/admin/reject-pending-show", AdminController::rejectPendingShow);
         app.post("/admin/delete-show", AdminController::deleteShow);
+        app.post("/admin/edit-show", AdminController::editShow);
 
         // Add a Show
 

@@ -1,8 +1,12 @@
 package services;
 
 import dao.AccountRequestDAO;
+import dao.GenreDAO;
+import dao.ProductionCompanyDAO;
 import dao.ShowDAO;
 import models.AccountRequest;
+import models.Genre;
+import models.ProductionCompany;
 import models.Show;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -106,6 +110,66 @@ public class AdminService {
         }
 
         return output;
+
+    }
+
+    public static JSONObject editShow(Integer showId, String title, int genre, double length, String type, int year, int procoId, int status) {
+
+        JSONObject resp = new JSONObject();
+
+        Genre genreObj = GenreDAO.get(genre);
+        ProductionCompany productionCompanyObj = ProductionCompanyDAO.get(procoId);
+
+        if (title.isEmpty()) {
+
+            resp.put("success", false);
+            resp.put("message", "You have left the title of the movie empty.");
+
+        } else if (genreObj.getId() < 1) {
+
+            resp.put("success", false);
+            resp.put("message", "You have selected an invalid genre.");
+
+        } else if (length < 0.03) {
+
+            resp.put("success", false);
+            resp.put("message", "The length of the show must be at least 3 minutes long.");
+
+        } else if (!type.equals("MOVIE") && !type.equals("SERIES")) {
+
+            resp.put("success", false);
+            resp.put("message", "The type of the show selected is not valid.");
+
+        } else if (year < 1800) {
+
+            resp.put("success", false);
+            resp.put("message", "The year of the release must be greater than 1800.");
+
+        } else if (productionCompanyObj.getId() < 1) {
+
+            resp.put("success", false);
+            resp.put("message", "The production company does not exist. Please choose a valid company from the list.");
+
+        } else {
+
+            Show show = ShowDAO.get(showId);
+
+            show.setTitle(title);
+            show.setGenre(genre);
+            show.setLength(length);
+            show.setProcoId(procoId);
+            show.setType(type);
+            show.setYear(year);
+            show.setStatus(status);
+
+            ShowDAO.update(show);
+
+            resp.put("success", true);
+            resp.put("message", "The show has been updated!");
+
+        }
+
+        return resp;
 
     }
 
