@@ -202,4 +202,35 @@ public class ShowDAO {
 
     }
 
+    public static void delete(Show show) {
+
+        Connection con = DBConnection.createConnection();
+
+        try {
+
+            // Create a MySQL prepared statement
+
+            PreparedStatement statement = con.prepareStatement("DELETE FROM shows WHERE show_id = ?");
+
+            // Plug in the parameters
+
+            statement.setInt(1, show.getId());
+
+            // Insert the row
+
+            statement.executeUpdate();
+
+            return;
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Error deleting show");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        DBConnection.closeConnection(con);
+
+    }
+
 }

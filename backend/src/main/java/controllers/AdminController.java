@@ -200,4 +200,37 @@ public class AdminController {
 
     }
 
+    static public void deleteShow(Context ctx) {
+
+        JSONObject payload = new JSONObject(ctx.body());
+        JSONObject resp = new JSONObject();
+
+        if (payload.has("token")) {
+
+            String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
+
+            if (!preExecutionResponse.getBoolean("success")) {
+
+                resp = preExecutionResponse;
+
+            } else if (!payload.has("show_id")) {
+
+                resp.put("success", false);
+                resp.put("message", "You need to input a show ID.");
+
+            } else {
+
+                Integer showId = (Integer) payload.get("show_id");
+
+                resp = AdminService.deleteShow(showId);
+
+            }
+
+        }
+
+        ctx.result(resp.toString());
+
+    }
+
 }

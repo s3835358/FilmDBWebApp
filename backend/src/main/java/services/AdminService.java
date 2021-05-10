@@ -86,6 +86,29 @@ public class AdminService {
 
     }
 
+    public static JSONObject deleteShow(Integer showId) {
+
+        JSONObject output = new JSONObject();
+        Show show = ShowDAO.get(showId);
+
+        if (show.getTitle() == null) {
+
+            output.put("success", false);
+            output.put("message", "The show does not exist!");
+
+        } else {
+
+            ShowDAO.delete(show);
+
+            output.put("success", true);
+            output.put("message", "The show has been deleted!");
+
+        }
+
+        return output;
+
+    }
+
     public static JSONObject getAccountRequests() {
 
         JSONObject output = new JSONObject();
