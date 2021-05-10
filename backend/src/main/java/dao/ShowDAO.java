@@ -11,6 +11,42 @@ import java.util.ArrayList;
 
 public class ShowDAO {
 
+    public static Show get(Integer showId) {
+
+        Connection con = DBConnection.createConnection();
+        Show show = new Show();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE id = ?");
+            statement.setInt(1, showId);
+            ResultSet res = statement.executeQuery();
+
+            if (res.next()) {
+
+                show.setId(res.getInt("show_id"));
+                show.setTitle(res.getString("show_title"));
+                show.setGenre(res.getInt("genre"));
+                show.setLength(res.getInt("length"));
+                show.setType(res.getString("type"));
+                show.setProcoId(res.getInt("proco_id"));
+                show.setYear(res.getInt("year"));
+                show.setAddedOn(res.getInt("added_on"));
+                show.setStatus(res.getInt("status"));
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get show");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return show;
+
+    }
+
     public static ArrayList<Show> getPendingAutoApproval() {
 
         Connection con = DBConnection.createConnection();
@@ -19,6 +55,45 @@ public class ShowDAO {
         try {
 
             PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 3");
+            ResultSet res = statement.executeQuery();
+
+            while (res.next()) {
+
+                Show show = new Show();
+
+                show.setId(res.getInt("show_id"));
+                show.setTitle(res.getString("show_title"));
+                show.setGenre(res.getInt("genre"));
+                show.setLength(res.getInt("length"));
+                show.setType(res.getString("type"));
+                show.setProcoId(res.getInt("proco_id"));
+                show.setYear(res.getInt("year"));
+                show.setAddedOn(res.getInt("added_on"));
+                show.setStatus(res.getInt("status"));
+
+                shows.add(show);
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get shows");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return shows;
+
+    }
+
+    public static ArrayList<Show> getPending() {
+
+        Connection con = DBConnection.createConnection();
+        ArrayList<Show> shows = new ArrayList<Show>();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 0");
             ResultSet res = statement.executeQuery();
 
             while (res.next()) {

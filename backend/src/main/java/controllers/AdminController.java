@@ -103,4 +103,101 @@ public class AdminController {
 
     }
 
+    static public void getPendingShows(Context ctx) {
+
+        JSONObject payload = new JSONObject(ctx.body());
+        JSONObject resp = new JSONObject();
+
+        if (payload.has("token")) {
+
+            String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
+
+            if (!preExecutionResponse.getBoolean("success")) {
+
+                resp = preExecutionResponse;
+
+            } else {
+
+                resp = AdminService.getPendingShows();
+
+            }
+
+        } else {
+
+            resp.put("success", false);
+            resp.put("message", "Please send a token parameter.");
+
+        }
+
+        ctx.result(resp.toString());
+
+    }
+
+    static public void approvePendingShow(Context ctx) {
+
+        JSONObject payload = new JSONObject(ctx.body());
+        JSONObject resp = new JSONObject();
+
+        if (payload.has("token")) {
+
+            String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
+
+            if (!preExecutionResponse.getBoolean("success")) {
+
+                resp = preExecutionResponse;
+
+            } else if (!payload.has("show_id")) {
+
+                resp.put("success", false);
+                resp.put("message", "You need to input a show ID.");
+
+            } else {
+
+                Integer showId = (Integer) payload.get("show_id");
+
+                resp = AdminService.changeShowStatus(showId, 1);
+
+            }
+
+        }
+
+        ctx.result(resp.toString());
+
+    }
+
+    static public void rejectPendingShow(Context ctx) {
+
+        JSONObject payload = new JSONObject(ctx.body());
+        JSONObject resp = new JSONObject();
+
+        if (payload.has("token")) {
+
+            String token = (String) payload.get("token");
+            JSONObject preExecutionResponse = AdminService.beforeExecutionCheck(token);
+
+            if (!preExecutionResponse.getBoolean("success")) {
+
+                resp = preExecutionResponse;
+
+            } else if (!payload.has("show_id")) {
+
+                resp.put("success", false);
+                resp.put("message", "You need to input a show ID.");
+
+            } else {
+
+                Integer showId = (Integer) payload.get("show_id");
+
+                resp = AdminService.changeShowStatus(showId, 2);
+
+            }
+
+        }
+
+        ctx.result(resp.toString());
+
+    }
+
 }

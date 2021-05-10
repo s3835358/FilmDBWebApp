@@ -29,11 +29,13 @@ class Main {
         app.post("/admin/get-account-requests", AdminController::getAccountRequests);
         app.post("/admin/approve-account-request", AdminController::approveAccountRequest);
         app.post("/admin/reject-account-request", AdminController::rejectAccountRequest);
+        app.post("/admin/get-pending-shows", AdminController::getPendingShows);
+        app.post("/admin/approve-pending-show", AdminController::approvePendingShow);
+        app.post("/admin/reject-pending-show", AdminController::rejectPendingShow);
 
         // Add a Show
 
         app.post("/show/add", ShowController::addShow);
-
 
 
 
