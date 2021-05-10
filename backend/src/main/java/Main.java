@@ -1,6 +1,7 @@
 import io.javalin.Javalin;
 import controllers.*;
 import io.javalin.core.util.Header;
+import services.ShowService;
 import util.Config;
 
 class Main {
@@ -57,6 +58,8 @@ class Main {
             ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
             ctx.header(Header.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, OPTIONS");
             ctx.header(Header.ACCESS_CONTROL_ALLOW_HEADERS, "*");
+
+            ShowService.processAutoApprovals();
 
         });
 

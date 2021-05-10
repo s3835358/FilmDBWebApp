@@ -8,6 +8,9 @@ import models.ProductionCompany;
 import models.Show;
 import org.json.JSONObject;
 import util.Common;
+import util.Config;
+
+import java.util.ArrayList;
 
 public class ShowService {
 
@@ -80,6 +83,24 @@ public class ShowService {
         }
 
         return resp;
+
+    }
+
+    public static void processAutoApprovals() {
+
+        long unixTime = System.currentTimeMillis() / 1000L;
+        ArrayList<Show> shows = ShowDAO.getPendingAutoApproval();
+
+        for (Show i : shows) {
+
+            if (unixTime - i.getAddedOn() > Config.SECONDS_IN_DAY) {
+
+                i.setStatus(1);
+                ShowDAO.update(i);
+
+            }
+
+        }
 
     }
 

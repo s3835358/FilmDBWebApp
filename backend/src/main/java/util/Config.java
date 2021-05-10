@@ -14,6 +14,7 @@ public class Config {
     public static String DATABASE_USERNAME;
     public static String DATABASE_PASSWORD;
     public static int DATABASE_PORT;
+    public static int SECONDS_IN_DAY;
 
     public static void loadConfig() {
 
@@ -30,6 +31,7 @@ public class Config {
             DATABASE_USERNAME = obj.getString("database_username");
             DATABASE_PASSWORD = obj.getString("database_password");
             DATABASE_PORT = obj.getInt("database_port");
+            SECONDS_IN_DAY = obj.getInt("seconds_in_day");
 
         } catch (Exception e) {
 
