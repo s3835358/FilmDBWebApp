@@ -18,7 +18,7 @@ public class ShowDAO {
 
         try {
 
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE id = ?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM `show` WHERE show_id = ?");
             statement.setInt(1, showId);
             ResultSet res = statement.executeQuery();
 
@@ -54,7 +54,7 @@ public class ShowDAO {
 
         try {
 
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 3");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM `show` WHERE status = 3");
             ResultSet res = statement.executeQuery();
 
             while (res.next()) {
@@ -93,7 +93,7 @@ public class ShowDAO {
 
         try {
 
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 0");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM `show` WHERE status = 0");
             ResultSet res = statement.executeQuery();
 
             while (res.next()) {
@@ -132,7 +132,7 @@ public class ShowDAO {
 
         try {
 
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 1");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM `show` WHERE status = 1");
             ResultSet res = statement.executeQuery();
 
             while (res.next()) {
@@ -249,7 +249,7 @@ public class ShowDAO {
 
             // Create a MySQL prepared statement
 
-            PreparedStatement statement = con.prepareStatement("DELETE FROM shows WHERE show_id = ?");
+            PreparedStatement statement = con.prepareStatement("DELETE FROM `shows` WHERE show_id = ?");
 
             // Plug in the parameters
 
