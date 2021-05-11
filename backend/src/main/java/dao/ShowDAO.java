@@ -125,6 +125,45 @@ public class ShowDAO {
 
     }
 
+    public static ArrayList<Show> getAll() {
+
+        Connection con = DBConnection.createConnection();
+        ArrayList<Show> shows = new ArrayList<Show>();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM show WHERE status = 1");
+            ResultSet res = statement.executeQuery();
+
+            while (res.next()) {
+
+                Show show = new Show();
+
+                show.setId(res.getInt("show_id"));
+                show.setTitle(res.getString("show_title"));
+                show.setGenre(res.getInt("genre"));
+                show.setLength(res.getInt("length"));
+                show.setType(res.getString("type"));
+                show.setProcoId(res.getInt("proco_id"));
+                show.setYear(res.getInt("year"));
+                show.setAddedOn(res.getInt("added_on"));
+                show.setStatus(res.getInt("status"));
+
+                shows.add(show);
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get shows");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return shows;
+
+    }
+
     public static void add(Show show) {
 
         Connection con = DBConnection.createConnection();

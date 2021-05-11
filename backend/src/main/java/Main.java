@@ -35,12 +35,11 @@ class Main {
         app.post("/admin/delete-show", AdminController::deleteShow);
         app.post("/admin/edit-show", AdminController::editShow);
 
-        // Add a Show
+        // Show
 
         app.post("/show/add", ShowController::addShow);
-
-
-
+        app.get("/get-shows", ShowController::getAllShows);
+        app.get("/get-show/:id", ShowController::getShow);
 
         // Error 404
 
