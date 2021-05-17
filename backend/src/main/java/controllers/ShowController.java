@@ -2,6 +2,7 @@ package controllers;
 
 import io.javalin.http.Context;
 import org.json.JSONObject;
+import services.InformationService;
 import services.ShowService;
 import util.Common;
 
@@ -35,6 +36,24 @@ public class ShowController {
             }
 
         }
+
+        ctx.result(resp.toString());
+
+    }
+
+    static public void getAllShows(Context ctx) {
+
+        JSONObject resp = ShowService.getAllShows();
+
+        ctx.result(resp.toString());
+
+    }
+
+    static public void getShow(Context ctx) {
+
+        int showId = Integer.parseInt(ctx.pathParam("id"));
+
+        JSONObject resp = ShowService.getShow(showId);
 
         ctx.result(resp.toString());
 

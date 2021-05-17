@@ -6,10 +6,67 @@ import dao.ShowDAO;
 import models.Genre;
 import models.ProductionCompany;
 import models.Show;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import util.Common;
+import util.Config;
+
+import java.util.ArrayList;
 
 public class ShowService {
+
+    public static JSONObject getShow(int showId) {
+
+        Show show = ShowDAO.get(showId);
+        JSONObject output = new JSONObject();
+        JSONObject sh = new JSONObject();
+
+        Genre g = GenreDAO.get(show.getGenre());
+        ProductionCompany pco = ProductionCompanyDAO.get(show.getProcoId());
+
+        sh.put("id", show.getId());
+        sh.put("title", show.getTitle());
+        sh.put("genre", g.getName());
+        sh.put("length", show.getLength());
+        sh.put("type", show.getType());
+        sh.put("production_company", pco.getName());
+        sh.put("year", show.getYear());
+
+        output.put("success", true);
+        output.put("show", sh);
+
+        return output;
+
+    }
+
+    public static JSONObject getAllShows() {
+
+        ArrayList<Show> shows = ShowDAO.getAll();
+        JSONObject output = new JSONObject();
+        JSONArray sh = new JSONArray();
+        int k = 0;
+
+        for (Show i : shows) {
+
+            JSONObject s = new JSONObject();
+            Genre g = GenreDAO.get(i.getGenre());
+
+            s.put("id", i.getId());
+            s.put("title", i.getTitle());
+            s.put("genre", g.getName());
+
+            sh.put(k, s);
+
+            k++;
+
+        }
+
+        output.put("success", true);
+        output.put("shows", sh);
+
+        return output;
+
+    }
 
     public static JSONObject add(String title, int genre, double length, String type, int year, int procoId, int userType) {
 
@@ -80,6 +137,24 @@ public class ShowService {
         }
 
         return resp;
+
+    }
+
+    public static void processAutoApprovals() {
+
+        long unixTime = System.currentTimeMillis() / 1000L;
+        ArrayList<Show> shows = ShowDAO.getPendingAutoApproval();
+
+        for (Show i : shows) {
+
+            if (unixTime - i.getAddedOn() > Config.SECONDS_IN_DAY) {
+
+                i.setStatus(1);
+                ShowDAO.update(i);
+
+            }
+
+        }
 
     }
 

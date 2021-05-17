@@ -1,6 +1,7 @@
 import io.javalin.Javalin;
 import controllers.*;
 import io.javalin.core.util.Header;
+import services.ShowService;
 import util.Config;
 
 class Main {
@@ -28,14 +29,17 @@ class Main {
         app.post("/admin/get-account-requests", AdminController::getAccountRequests);
         app.post("/admin/approve-account-request", AdminController::approveAccountRequest);
         app.post("/admin/reject-account-request", AdminController::rejectAccountRequest);
+        app.post("/admin/get-pending-shows", AdminController::getPendingShows);
+        app.post("/admin/approve-pending-show", AdminController::approvePendingShow);
+        app.post("/admin/reject-pending-show", AdminController::rejectPendingShow);
+        app.post("/admin/delete-show", AdminController::deleteShow);
+        app.post("/admin/edit-show", AdminController::editShow);
 
-        // Add a Show
+        // Show
 
         app.post("/show/add", ShowController::addShow);
-
-
-
-
+        app.get("/get-shows", ShowController::getAllShows);
+        app.get("/get-show/:id", ShowController::getShow);
 
         // Error 404
 
@@ -57,6 +61,8 @@ class Main {
             ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
             ctx.header(Header.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, OPTIONS");
             ctx.header(Header.ACCESS_CONTROL_ALLOW_HEADERS, "*");
+
+            ShowService.processAutoApprovals();
 
         });
 

@@ -4,5 +4,6 @@
   "database_name": "core",
   "database_username": "root",
   "database_password": "securepassword",
-  "database_port": 3306
+  "database_port": 3306,
+  "seconds_in_day": 86400
 }
