@@ -11,6 +11,7 @@ import AddFilm from './pages/addFilm';
 import { UserContext } from './data/UserContext';
 import { DataContext } from './data/DataContext';
 import {pCos} from './data/pcos';
+import {genreFunc} from './data/genres';
 
 
 
@@ -19,7 +20,10 @@ function App() {
   const [user,setUser] = useState("Guest");
   const [token,setToken] = useState("");
   const [pcos,setPcos] = useState(pCos);
-  const [data,setData] = useState([]);
+  const [genres,setGenres] = useState(genreFunc);
+  const [acctData, setAcctData] = useState([]);
+  const [mediaData, setMediaData] = useState([]);
+  const [filmData, setFilmData] = useState([]); 
   
   return (
       /*
@@ -28,7 +32,8 @@ function App() {
        * to switch between pages within a 'single page app'
        */
       <UserContext.Provider value = {{user, token, setUser, setToken}}>
-        <DataContext.Provider value = {{data, pcos, setData, setPcos}}>
+        <DataContext.Provider value = {{acctData, pcos, genres, mediaData, filmData, 
+          setFilmData, setAcctData, setPcos, setGenres, setMediaData}}>
         <Router>
           <Navbar/>
           <Switch>
