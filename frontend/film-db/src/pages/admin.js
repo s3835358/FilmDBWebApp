@@ -7,6 +7,7 @@ import './admin.css'
 import {UserContext} from '../data/UserContext';
 import {DataContext} from '../data/DataContext';
 import {customStyles} from '../components/selectStyle';
+import axios from 'axios';
 
 export const Admin = () => {
 
@@ -14,6 +15,7 @@ export const Admin = () => {
     const {acctData,setAcctData} = useContext(DataContext);
     const {mediaData, setMediaData} = useContext(DataContext);
     const {filmData,setFilmData} = useContext(DataContext);
+    
     const {pcos} = useContext(DataContext);
     const {genres} = useContext(DataContext);
     const [response,setResponse] = useState("");
@@ -22,18 +24,20 @@ export const Admin = () => {
     const [filmOpts,setFilmOpts] = useState([]);
     
     const [loaded,setLoaded] = useState(false);
+    const [film,setFilm] = useState({
+        show_id:"",
+        title:"",
+        genre:"",
+        length:"",
+        type:"",
+        year:"",
+        proco_id:""
+    });
 
     const [state,setState] = useState({
         acctSelected:"",
         mediaSelected:"",
         filmSelected:-1,
-        title:"",
-        length:"",
-        year:"",
-        director:"",
-        type:"",
-        pCo:"",
-        genre:"",
         adminUser:"caramel6"
     })
 
@@ -67,6 +71,25 @@ export const Admin = () => {
         API.post(`admin/reject-pending-show`,{token:token, show_id: state.mediaSelected}).then(res => {
             setResponse(res.data["message"])
             
+        }).catch(err =>{
+            alert(err);
+        })
+    }
+
+    function sendEdit(){
+        const send = {
+            token: token,
+            show_id:String(film.id),
+            title:film.title,
+            genre:String(film.genre),
+            length:String(film.length),
+            type:film.type,
+            year:String(film.year),
+            proco_id:"1",
+        }
+        API.post(`admin/edit-show`,{send}).then(res => {
+            setResponse(res.data["message"])
+            console.log(res);
         }).catch(err =>{
             alert(err);
         })
@@ -111,7 +134,15 @@ export const Admin = () => {
             })
         }
     }
-    
+
+    function deleteShow(){
+        API.post(`admin/delete-show`,{show_id:film.id, title: film.title}).then(res => {
+            setResponse(res.data["message"])
+            console.log(res);
+        }).catch(err =>{
+            alert(err);
+        })
+    }
 
     // Updates UI based on changes to dependant data
     useEffect(() => {
@@ -129,12 +160,21 @@ export const Admin = () => {
                 fillDropDown(acctResult.data['requests'],'user');
                 fillDropDown(mediaResult.data['pending'],'media');
                 fillDropDown(filmData,'films');
-
-                
-
+                var str = 'http://45.77.232.166:8080/get-show/'+ state.filmSelected;
+                axios({
+                    method: 'get',
+                    url: str,
+                    responseType: 'stream'
+                }).then((response) =>{
+                    
+                    const data = response.data['show'];
+                    setFilm(data);
+                    
+                });
+                console.log(film);
             }
         })();
-    }, [response, userOpts, setAcctData, token, user, state.adminUser, setMediaData]);
+    }, [loaded, response, token, state.filmSelected, state.acctSelected, state.adminUser, state.mediaSelected]);
 
     
 
@@ -160,6 +200,7 @@ export const Admin = () => {
         ],
         []
     )
+
     
     return (
         <div>
@@ -213,7 +254,7 @@ export const Admin = () => {
                 />
             </div>
             
-            <div className="Admin-Form">
+            <div className="Admin-Film">
                 {
                     state.filmSelected == -1 ?
                     <div>
@@ -223,21 +264,21 @@ export const Admin = () => {
                     <div>
                         <input
                             className="Film-In"
-                            value={state.title}
+                            value={film.title}
                             onChange={(ev) => setState({...state, title: ev.target.value})}
                             placeholder="Film Title.."
                             type="text"
                         />
                         <input 
                             className="Film-In"
-                            value={state.length}
+                            value={film.length}
                             onChange={(ev) => setState({...state, length: ev.target.value})}
                             placeholder="Length.."
                             type="text" 
                         />
                         <input
                             className="Film-In"
-                            value={state.year}
+                            value={film.year}
                             onChange={(ev) => setState({...state, year: ev.target.value})}
                             placeholder="1990"
                             type="number"
@@ -250,19 +291,19 @@ export const Admin = () => {
                             styles={customStyles}
                             placeholder="Format.."
                             options={[{ value: "MOVIE", label: "MOVIE" },{ value: "SERIES", label: "SERIES" }]}
-                            onChange={opt => setState({...state, type: opt.value})}
+                            onChange={opt => setFilm({...film, type: opt.value})}
                         />
                         <Select 
                             styles={customStyles}
                             placeholder="Genre.."
                             options={genres}
-                            onChange={opt => setState({...state, genre: opt.value})}
+                            onChange={opt => setFilm({...film, genre: opt.value})}
                         />
                         <Select 
                             styles={customStyles}
                             placeholder="Production Company"
                             options={pcos} 
-                            onChange={opt => setState({...state, pCo: opt.value})}
+                            onChange={opt => setFilm({...film, pCo: opt.value})}
                         />
                     </div>
                 }
@@ -270,20 +311,20 @@ export const Admin = () => {
                     styles={customStyles}
                     placeholder="Select Show/Film"
                     options={filmOpts} 
-                    onChange={opt => setState({...state, filmSelected: opt.value})}
+                    onChange={(opt) => setState({...state, filmSelected: opt.value})}
                 />
                 <br/>
                 <input 
                     className="Admin-Submit"
                     type="submit" 
-                    onClick={approveMedia}
-                    value="APPROVE" 
+                    onClick={sendEdit}
+                    value="SUBMIT EDIT" 
                 />
                 <input 
                     className="Admin-Submit"
                     type="submit" 
-                    onClick={rejectMedia}
-                    value="REJECT" 
+                    onClick={deleteShow}
+                    value="DELETE SHOW" 
                 />
                 
 
