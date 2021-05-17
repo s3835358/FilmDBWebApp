@@ -15,14 +15,14 @@ export const Admin = () => {
     const {acctData,setAcctData} = useContext(DataContext);
     const {mediaData, setMediaData} = useContext(DataContext);
     const {filmData,setFilmData} = useContext(DataContext);
-    
+
     const {pcos} = useContext(DataContext);
     const {genres} = useContext(DataContext);
     const [response,setResponse] = useState("");
     const [userOpts,setUserOpts] = useState([]);
     const [mediaOpts,setMediaOpts] = useState([]);
     const [filmOpts,setFilmOpts] = useState([]);
-    
+
     const [loaded,setLoaded] = useState(false);
     const [film,setFilm] = useState({
         show_id:"",
@@ -70,7 +70,7 @@ export const Admin = () => {
     function rejectMedia(){
         API.post(`admin/reject-pending-show`,{token:token, show_id: state.mediaSelected}).then(res => {
             setResponse(res.data["message"])
-            
+
         }).catch(err =>{
             alert(err);
         })
@@ -87,7 +87,7 @@ export const Admin = () => {
             year:String(film.year),
             proco_id:"1",
         }
-        API.post(`admin/edit-show`,{send}).then(res => {
+        API.post(`admin/edit-show`,send).then(res => {
             setResponse(res.data["message"])
             console.log(res);
         }).catch(err =>{
@@ -120,9 +120,9 @@ export const Admin = () => {
         } else {
             setFilmOpts(arr);
         }
-        
+
     }
-    
+
     function getShows(){
         if(!loaded){
             API.get(`get-shows`).then(res=>{
@@ -136,7 +136,7 @@ export const Admin = () => {
     }
 
     function deleteShow(){
-        API.post(`admin/delete-show`,{show_id:film.id, title: film.title}).then(res => {
+        API.post(`admin/delete-show`,{token: token, show_id:film.id, title: film.title}).then(res => {
             setResponse(res.data["message"])
             console.log(res);
         }).catch(err =>{
@@ -153,7 +153,7 @@ export const Admin = () => {
                 setAcctData(acctResult.data['requests']);
                 const mediaResult = await API.post(`admin/get-pending-shows`,{token:token});
                 setMediaData(mediaResult.data['pending']);
-                
+
                 getShows();
 
                 // Fills dropdown with usernames of those requesting accounts
@@ -166,17 +166,17 @@ export const Admin = () => {
                     url: str,
                     responseType: 'stream'
                 }).then((response) =>{
-                    
+
                     const data = response.data['show'];
                     setFilm(data);
-                    
+
                 });
                 console.log(film);
             }
         })();
     }, [loaded, response, token, state.filmSelected, state.acctSelected, state.adminUser, state.mediaSelected]);
 
-    
+
 
     const acctCols = useMemo(
         () => [
@@ -201,59 +201,59 @@ export const Admin = () => {
         []
     )
 
-    
+
     return (
         <div>
-        {!user.match(state.adminUser)? 
+        {!user.match(state.adminUser)?
             <div> You do not have permission to view this page </div>
         :
         <div>
-            
+
             <Table columns={acctCols} data={acctData} />
             <div className="Admin-Form">
-                <Select 
+                <Select
                     styles={customStyles}
                     placeholder="Select User"
-                    options={userOpts} 
+                    options={userOpts}
                     onChange={opt => setState({...state, acctSelected: opt.value})}
                 />
                 <br/>
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={approve}
-                    value="APPROVE" 
+                    value="APPROVE"
                 />
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={reject}
-                    value="REJECT" 
+                    value="REJECT"
                 />
             </div>
             <Table columns={mediaCols} data={mediaData} />
             <div className="Admin-Form">
-                <Select 
+                <Select
                     styles={customStyles}
                     placeholder="Select Show/Film"
-                    options={mediaOpts} 
+                    options={mediaOpts}
                     onChange={opt => setState({...state, mediaSelected: opt.value})}
                 />
                 <br/>
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={approveMedia}
-                    value="APPROVE" 
+                    value="APPROVE"
                 />
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={rejectMedia}
-                    value="REJECT" 
+                    value="REJECT"
                 />
             </div>
-            
+
             <div className="Admin-Film">
                 {
                     state.filmSelected == -1 ?
@@ -269,12 +269,12 @@ export const Admin = () => {
                             placeholder="Film Title.."
                             type="text"
                         />
-                        <input 
+                        <input
                             className="Film-In"
                             value={film.length}
                             onChange={(ev) => setState({...state, length: ev.target.value})}
                             placeholder="Length.."
-                            type="text" 
+                            type="text"
                         />
                         <input
                             className="Film-In"
@@ -287,49 +287,49 @@ export const Admin = () => {
                             name="year"
                             id="year"
                         />
-                        <Select 
+                        <Select
                             styles={customStyles}
                             placeholder="Format.."
                             options={[{ value: "MOVIE", label: "MOVIE" },{ value: "SERIES", label: "SERIES" }]}
                             onChange={opt => setFilm({...film, type: opt.value})}
                         />
-                        <Select 
+                        <Select
                             styles={customStyles}
                             placeholder="Genre.."
                             options={genres}
                             onChange={opt => setFilm({...film, genre: opt.value})}
                         />
-                        <Select 
+                        <Select
                             styles={customStyles}
                             placeholder="Production Company"
-                            options={pcos} 
+                            options={pcos}
                             onChange={opt => setFilm({...film, pCo: opt.value})}
                         />
                     </div>
                 }
-                <Select 
+                <Select
                     styles={customStyles}
                     placeholder="Select Show/Film"
-                    options={filmOpts} 
+                    options={filmOpts}
                     onChange={(opt) => setState({...state, filmSelected: opt.value})}
                 />
                 <br/>
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={sendEdit}
-                    value="SUBMIT EDIT" 
+                    value="SUBMIT EDIT"
                 />
-                <input 
+                <input
                     className="Admin-Submit"
-                    type="submit" 
+                    type="submit"
                     onClick={deleteShow}
-                    value="DELETE SHOW" 
+                    value="DELETE SHOW"
                 />
-                
+
 
             </div>
-            
+
         </div>
         }
         </div>
