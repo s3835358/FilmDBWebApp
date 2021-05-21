@@ -35,7 +35,7 @@
   width:50%;
 }
 .Reg-In-L{
-  background-color:rgb(233, 234, 236,0.5);
+  background-color:rgb(233, 234, 236,0.65);
   outline:none;
   border-style: solid;
   border-color: #000000;
@@ -45,7 +45,7 @@
   width:50%;
 }
 .Reg-In-F{
-  background-color:rgb(233, 234, 236,0.5);
+  background-color:rgb(233, 234, 236,0.65);
   outline:none;
   border:none;
   max-height: 40px;
@@ -54,11 +54,11 @@
 }
 
 .Reg-Sel{
-  background-color:rgb(233, 234, 236,0.5);
+  background-color:rgb(233, 234, 236,0.65);
   
 }
 .Reg-Sel-T{
-  background-color:rgb(233, 234, 236,0.5);
+  background-color:rgb(233, 234, 236,0.65);
   outline:none;
   border-style: solid;
   border-color: #000000;

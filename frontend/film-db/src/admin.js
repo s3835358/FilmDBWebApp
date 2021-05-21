@@ -22,7 +22,7 @@ export const Admin = () => {
     const [userOpts,setUserOpts] = useState([]);
     const [mediaOpts,setMediaOpts] = useState([]);
     const [filmOpts,setFilmOpts] = useState([]);
-
+    const [message,setMessage] = useState("");    
     const [loaded,setLoaded] = useState(false);
     const [film,setFilm] = useState({
         show_id:"",
@@ -38,6 +38,7 @@ export const Admin = () => {
         acctSelected:"",
         mediaSelected:"",
         filmSelected:-1,
+        message:"The movie has been successfully updated!",
         adminUser:"caramel6"
     })
 
@@ -81,18 +82,17 @@ export const Admin = () => {
             token: token,
             show_id:String(film.id),
             title:film.title,
-            genre:String(film.genre),
+            genre:"1",
             length:String(film.length),
             type:film.type,
             year:String(film.year),
             proco_id:"1",
+            status:"1"
         }
-        API.post(`admin/edit-show`,send).then(res => {
-            setResponse(res.data["message"])
-            console.log(res);
-        }).catch(err =>{
-            alert(err);
+        API.post(`admin/edit-show`,{send}).then(res => {
+            setMessage(res.data['message']);
         })
+        alert(state.message);
     }
 
     function fillDropDown(res, type){
@@ -138,7 +138,7 @@ export const Admin = () => {
     function deleteShow(){
         API.post(`admin/delete-show`,{token: token, show_id:film.id, title: film.title}).then(res => {
             setResponse(res.data["message"])
-            console.log(res);
+            alert(res.data["message"]);
         }).catch(err =>{
             alert(err);
         })
@@ -174,7 +174,7 @@ export const Admin = () => {
                 console.log(film);
             }
         })();
-    }, [loaded, response, token, state.filmSelected, state.acctSelected, state.adminUser, state.mediaSelected]);
+    }, [loaded, message, response, token, state.filmSelected, state.acctSelected, state.adminUser, state.mediaSelected]);
 
 
 
