@@ -1,8 +1,7 @@
-package services;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import util.Config;
+import services.LoginService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
