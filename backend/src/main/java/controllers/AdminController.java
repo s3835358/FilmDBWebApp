@@ -257,7 +257,7 @@ public class AdminController {
 
                 Integer showId = (Integer) payload.get("show_id");
                 String title = (String) payload.get("title");
-                int genre = Integer.parseInt((String) payload.get("genre"));
+                String genre = (String) payload.get("genre");
                 double length = Double.parseDouble((String) payload.get("length"));
                 String type = (String) payload.get("type");
                 int year = Integer.parseInt((String) payload.get("year"));

@@ -113,7 +113,7 @@ public class AdminService {
 
     }
 
-    public static JSONObject editShow(Integer showId, String title, int genre, double length, String type, int year, int procoId, int status) {
+    public static JSONObject editShow(Integer showId, String title, String genre, double length, String type, int year, int procoId, int status) {
 
         JSONObject resp = new JSONObject();
 
@@ -155,7 +155,7 @@ public class AdminService {
             Show show = ShowDAO.get(showId);
 
             show.setTitle(title);
-            show.setGenre(genre);
+            show.setGenre(genreObj.getId());
             show.setLength(length);
             show.setProcoId(procoId);
             show.setType(type);

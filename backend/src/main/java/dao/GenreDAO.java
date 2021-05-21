@@ -42,6 +42,38 @@ public class GenreDAO {
 
     }
 
+    public static Genre get(String name) {
+
+        Connection con = DBConnection.createConnection();
+        Genre genre = new Genre();
+
+        try {
+
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM genre WHERE genre_name = ?");
+            statement.setString(1, name);
+            ResultSet res = statement.executeQuery();
+
+            if (res.next()) {
+
+                int genreId = res.getInt("genre_id");
+                String genreName = res.getString("genre_name");
+
+                genre.setId(genreId);
+                genre.setName(genreName);
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("PANIC: Failed to get genre");
+            System.out.println("ERROR: " + e.getMessage());
+
+        }
+
+        return genre;
+
+    }
+
     public static ArrayList<Genre> getAll() {
 
         Connection con = DBConnection.createConnection();

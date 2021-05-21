@@ -249,7 +249,7 @@ public class ShowDAO {
 
             // Create a MySQL prepared statement
 
-            PreparedStatement statement = con.prepareStatement("DELETE FROM `shows` WHERE show_id = ?");
+            PreparedStatement statement = con.prepareStatement("DELETE FROM `show` WHERE show_id = ?");
 
             // Plug in the parameters
 
