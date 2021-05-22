@@ -255,7 +255,8 @@ public class AdminController {
 
             } else {
 
-                Integer showId = (Integer) payload.get("show_id");
+                Integer showId = Integer.parseInt((String) payload.get("show_id"));
+
                 String title = (String) payload.get("title");
                 String genre = (String) payload.get("genre");
                 double length = Double.parseDouble((String) payload.get("length"));
