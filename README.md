@@ -1,14 +1,16 @@
 # FilmDBWebApp
 
-Product Owner: Joshua Besei (s3839264)
+Development Team:
 
-Scrum Master: Martin Lawrence (s3788137)  
+- Product Owner: Joshua Besei (s3839264)
 
-Development team: Areeb Majeed (s3827035), Declan Baker (s3835358)  
+- Scrum Master: Martin Lawrence (s3788137)  
 
-Database Handling: David Kirkland (s3830641)  
+- Development team: Areeb Majeed (s3827035), Declan Baker (s3835358)  
 
-Testing: Dunith Nadvi Karawita (s3823697) 
+- Database Handling: David Kirkland (s3830641)  
+
+- Testing: Dunith Nadvi Karawita (s3823697) 
 
 A basic film database website akin to IMDB, letterboxed etc..
 
